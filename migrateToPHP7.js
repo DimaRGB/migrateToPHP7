@@ -30,10 +30,12 @@ walk(__dirname, function(err, results) {
 
 function migrateCode (code) {
   var classNames = code.match(/class\s+\S+(?=.*{)/g);
-  classNames.forEach(function (fullClassName) {
-    className = fullClassName.replace(/class\s+/, '');
-    var funcRegExp = new RegExp('function\\s+' + className + '(?=\\s*\\()(?!(.|\\s)+' + fullClassName + '.*{)', 'm');
-    code = code.replace(funcRegExp, '// automigrate_to_php7 (was function ' + className + ')\nfunction __construct');
-  });
+  if( classNames ) {
+    classNames.forEach(function (fullClassName) {
+      className = fullClassName.replace(/class\s+/, '');
+      var funcRegExp = new RegExp('function\\s+' + className + '(?=\\s*\\()(?!(.|\\s)+' + fullClassName + '.*{)', 'm');
+      code = code.replace(funcRegExp, '// automigrate_to_php7 (was function ' + className + ')\nfunction __construct');
+    });
+  }
   return code;
 }
