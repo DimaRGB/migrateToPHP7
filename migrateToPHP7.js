@@ -30,13 +30,36 @@ walk(__dirname, function(err, results) {
 });
 
 function migrateCode (code) {
-  var classNames = code.match(/^\s*class\s+\w+/gm);
-  if( classNames ) {
-    classNames.forEach(function (fullClassName) {
-      var className = fullClassName.replace(/^\s*class\s+/m, '');
+  // Only classes without parent
+  // var classNames = code.match(/^\s*class\s+\w+/gm);
+  // if( classNames ) {
+  //   classNames.forEach(function (fullClassName) {
+  //     var className = fullClassName.replace(/^\s*class\s+/m, '');
+  //     var funcRegExp = new RegExp('function\\s+' + className + '(?=\\s*\\()');
+  //     // (?!(.|\\s)+' + fullClassName + '.*{)', 'm');
+  //     code = code.replace(funcRegExp, '// automigrate_to_php7 (was function ' + className + ')\nfunction __construct');
+  //   });
+  // }
+
+  // find and replace extends parent::Parent to parent::__construct
+  var classLineReg = /\s*class\s+(\w+)(\s+extends\s+(\w+))?/g;
+  var classLines = code.match(classLineReg);
+  if( classLines ) {
+    classLines.forEach(function (classLine) {
+      console.log(classLine);
+      var arr = classLine.replace(new RegExp(classLineReg.source), '$1,$3').split(',');
+      var className = arr[0];
+      var parentClassName = arr[1];
+
+      // replace function constructor to __construct
       var funcRegExp = new RegExp('function\\s+' + className + '(?=\\s*\\()');
       // (?!(.|\\s)+' + fullClassName + '.*{)', 'm');
       code = code.replace(funcRegExp, '// automigrate_to_php7 (was function ' + className + ')\nfunction __construct');
+
+      // check and replace parent call to ::__construct
+      if( parentClassName ) {
+        code = code.replace(new RegExp('parent\s*::\s*' + parentClassName, 'g'), 'parent::__construct');
+      }
     });
   }
   return code;
