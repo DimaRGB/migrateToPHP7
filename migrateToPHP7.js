@@ -19,9 +19,7 @@ walk(__dirname, function(err, results) {
         } else {
           successCount++;
         }
-        setTimeout(function () {
-          console.log('Filename:', file, '; Left:', --filesCount);
-        }, 0);
+        console.log('Filename:', file, '; Left:', --filesCount);
         if( !filesCount ) {
           console.log('Success:', successCount);
           console.log('Error:', errorCount);
@@ -32,7 +30,7 @@ walk(__dirname, function(err, results) {
 });
 
 function migrateCode (code) {
-  var classNames = code.match(/^\s*class\s+\S+(?=.*{)/gm);
+  var classNames = code.match(/^\s*class\s+\w+/gm);
   if( classNames ) {
     classNames.forEach(function (fullClassName) {
       className = fullClassName.replace(/class\s+/, '');
