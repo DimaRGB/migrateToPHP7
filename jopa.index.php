@@ -8,6 +8,7 @@ class qwertyu {
 class  Jopa {
 
   // automigrate_to_php7 (was function Jopa)
+// automigrate_to_php7 (was function Jopa)
 function __construct () {
 
   }
