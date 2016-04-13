@@ -42,11 +42,10 @@ function migrateCode (code) {
   // }
 
   // find and replace extends parent::Parent to parent::__construct
-  var classLineReg = /\s*class\s+(\w+)(\s+extends\s+(\w+))?/g;
+  var classLineReg = /^\s*class\s+(\w+)(\s+extends\s+(\w+))?/gm;
   var classLines = code.match(classLineReg);
   if( classLines ) {
     classLines.forEach(function (classLine) {
-      console.log(classLine);
       var arr = classLine.replace(new RegExp(classLineReg.source), '$1,$3').split(',');
       var className = arr[0];
       var parentClassName = arr[1];
