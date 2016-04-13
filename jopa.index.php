@@ -1,14 +1,7 @@
-class qwertyu {
+class  Jopa extends Test {
 
   function Jopa () {
-
-  }
-}
-
-class  Jopa {
-
-  function Jopa () {
-
+    parent ::   Test();
   }
 }
 

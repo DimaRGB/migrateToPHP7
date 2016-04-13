@@ -53,11 +53,11 @@ function migrateCode (code) {
       // replace function constructor to __construct
       var funcRegExp = new RegExp('function\\s+' + className + '(?=\\s*\\()');
       // (?!(.|\\s)+' + fullClassName + '.*{)', 'm');
-      code = code.replace(funcRegExp, '// automigrate_to_php7 (was function ' + className + ')\nfunction __construct');
+      code = code.replace(funcRegExp, 'function __construct /* automigrate_to_php7 (was function ' + className + ')*/');
 
       // check and replace parent call to ::__construct
       if( parentClassName ) {
-        code = code.replace(new RegExp('parent\s*::\s*' + parentClassName, 'g'), 'parent::__construct');
+        code = code.replace(new RegExp('parent\\s*::\\s*' + parentClassName, 'g'), 'parent::__construct');
       }
     });
   }

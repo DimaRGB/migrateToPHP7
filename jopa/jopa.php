@@ -1,6 +1,6 @@
 class Jopa2 extends qweqwe {
 
-  function __construct() {
+  function Jopa2() {
     var w = 'class Jopa2 ';
   }
 }

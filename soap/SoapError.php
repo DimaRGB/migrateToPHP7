@@ -44,7 +44,7 @@ class SoapError{
 	var $number;
 	var $description;
 
-	function SoapError(){
+	function SoapError (){
 		$this->set_error('no_error');
 	}
 
