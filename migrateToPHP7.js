@@ -19,7 +19,7 @@ walk(__dirname, function(err, results) {
         } else {
           successCount++;
         }
-        console.log('Left:', --filesCount, '; filename:', file);
+        console.log('Filename:', file, '; Left:', --filesCount);
         if( !filesCount ) {
           console.log('Success:', successCount);
           console.log('Error:', errorCount);
